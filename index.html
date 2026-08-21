@@ -7,11 +7,32 @@
 <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
-:root{--bg:#070b18;--panel:#11182d;--panel2:#17213c;--text:#f8f9ff;--muted:#aeb8d4;--purple:#8b5cf6;--pink:#ff4fa3;--green:#20e3a2;--yellow:#ffd166;--red:#ff5d73}
+:root{--bg:#070b18;--panel:#11182d;--text:#f8f9ff;--muted:#aeb8d4;--purple:#8b5cf6;--pink:#ff4fa3;--green:#20e3a2;--yellow:#ffd166;--red:#ff5d73}
 *{box-sizing:border-box}html,body{margin:0;min-height:100%;background:radial-gradient(circle at 50% -10%,#3a2b72 0,#11172b 35%,#070b18 75%);color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-body{overflow-x:hidden}.screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}.hidden{display:none!important}
-.wrap{width:min(1200px,100%);margin:auto}.hero{text-align:center}.eyebrow{display:inline-block;padding:8px 14px;border-radius:999px;background:#ffffff12;border:1px solid #ffffff1c;color:#e4ddff;font-size:12px;font-weight:900;letter-spacing:.16em}.hero h1{font-size:clamp(48px,10vw,110px);line-height:.92;margin:22px 0 14px;font-weight:1000;background:linear-gradient(90deg,#fff,#f4d7ff,#b8f9ff);-webkit-background-clip:text;color:transparent}.hero h2{font-size:clamp(20px,3vw,32px);margin:0 0 12px}.hero p{color:var(--muted);font-size:17px}.buttons{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:26px}.btn{border:0;border-radius:16px;padding:15px 22px;background:linear-gradient(135deg,var(--purple),var(--pink));color:#fff;font-weight:950;font-size:16px;cursor:pointer;box-shadow:0 12px 30px #0005}.btn.big{font-size:clamp(22px,4vw,38px);padding:25px 48px;border-radius:22px;min-width:280px}.btn.green{background:linear-gradient(135deg,#10b981,#22e3a5);color:#03140f}.btn.dark{background:#ffffff12;border:1px solid #ffffff1b}.btn.red{background:linear-gradient(135deg,#ff4568,#ff7a54)}.btn:disabled{opacity:.4;cursor:not-allowed}.notice{margin:18px auto 0;max-width:760px;color:#d7ddf0;font-size:13px;line-height:1.5}
-.host{width:min(1300px,100%)}.top{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:16px}.pill{background:#ffffff0d;border:1px solid #ffffff16;border-radius:999px;padding:9px 13px;font-weight:900}.game{background:#ffffff08;border:1px solid #ffffff14;border-radius:30px;padding:clamp(20px,4vw,48px);text-align:center;box-shadow:0 20px 70px #0005}.round{font-size:14px;letter-spacing:.18em;font-weight:1000;color:#cfc6ff}.difficulty{margin-top:10px;font-size:18px;font-weight:1000}.titlePrompt{font-size:clamp(30px,6vw,70px);font-weight:1000;margin:22px 0}.count{font-size:clamp(90px,18vw,190px);line-height:.8;font-weight:1000;margin:25px 0;color:#fff;text-shadow:0 0 40px #8b5cf677}.answer{margin:25px auto 0;padding:22px;border-radius:20px;background:#20e3a212;border:1px solid #20e3a255;max-width:800px}.answer h2{font-size:clamp(30px,5vw,55px);margin:0}.answer p{margin:7px;color:var(--muted)}.hostControls{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:24px}.play{font-size:clamp(22px,4vw,34px);padding:24px 42px}.audio{width:min(760px,100%);margin:15px auto;display:block}.teams{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin:18px 0}.team{background:#ffffff09;border:1px solid #ffffff14;border-radius:16px;padding:13px}.team strong{display:block}.team .pts{font-size:28px;font-weight:1000;color:#cfc6ff}.scoreBtns{display:flex;gap:7px;justify-content:center;margin-top:8px}.scoreBtns button{border:0;border-radius:10px;padding:8px 12px;cursor:pointer;font-weight:900}.admin{margin-top:18px;background:#ffffff08;border:1px solid #ffffff14;border-radius:22px;padding:20px}.admin input{background:#080d1d;color:#fff;border:1px solid #ffffff18;border-radius:8px;padding:8px;width:100%}.row{display:grid;grid-template-columns:42px 1.3fr 1fr 90px 90px;gap:8px;padding:10px 0;border-bottom:1px solid #ffffff0e;align-items:center}.small{font-size:12px;color:var(--muted)}.room{display:flex;gap:20px;align-items:center;justify-content:center;flex-wrap:wrap}.roomCode{font-size:clamp(42px,8vw,80px);font-weight:1000;letter-spacing:.12em}.qr{background:#fff;padding:12px;border-radius:14px;display:inline-block}.audience{width:min(1000px,100%);text-align:center}.audience .game{min-height:70vh;display:flex;flex-direction:column;justify-content:center}.audience .titlePrompt{font-size:clamp(42px,9vw,110px)}.audience .count{font-size:clamp(120px,25vw,260px)}.audience .answer{max-width:900px}.final{text-align:center}.winner{font-size:clamp(45px,9vw,100px);font-weight:1000;margin:15px}.confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:50}.piece{position:absolute;width:10px;height:18px;top:-30px;animation:fall 2.7s linear forwards}@keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:.8}}.joinbox{max-width:520px;margin:22px auto;background:#ffffff08;border:1px solid #ffffff16;border-radius:20px;padding:20px}.joinbox input{width:100%;padding:15px;border-radius:12px;border:1px solid #ffffff1c;background:#080d1d;color:white;font-size:22px;text-align:center;text-transform:uppercase}.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#111a30;border:1px solid #ffffff20;padding:12px 18px;border-radius:12px;display:none;z-index:60}
+body{overflow-x:hidden}.screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}.hidden{display:none!important}.wrap{width:min(1200px,100%);margin:auto}.hero{text-align:center}
+.eyebrow{display:inline-block;padding:8px 14px;border-radius:999px;background:#ffffff12;border:1px solid #ffffff1c;color:#e4ddff;font-size:12px;font-weight:900;letter-spacing:.16em}
+.hero h1{font-size:clamp(48px,10vw,110px);line-height:.92;margin:22px 0 14px;font-weight:1000;background:linear-gradient(90deg,#fff,#f4d7ff,#b8f9ff);-webkit-background-clip:text;color:transparent}
+.hero h2{font-size:clamp(20px,3vw,32px);margin:0 0 12px}.hero p{color:var(--muted);font-size:17px}.buttons{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:26px}
+.btn{border:0;border-radius:16px;padding:15px 22px;background:linear-gradient(135deg,var(--purple),var(--pink));color:#fff;font-weight:950;font-size:16px;cursor:pointer;box-shadow:0 12px 30px #0005}
+.btn.big{font-size:clamp(22px,4vw,38px);padding:25px 48px;border-radius:22px;min-width:280px}.btn.green{background:linear-gradient(135deg,#10b981,#22e3a5);color:#03140f}.btn.dark{background:#ffffff12;border:1px solid #ffffff1b}.btn.red{background:linear-gradient(135deg,#ff4568,#ff7a54)}
+.btn:disabled{opacity:.4;cursor:not-allowed}.notice{margin:18px auto 0;max-width:760px;color:#d7ddf0;font-size:13px;line-height:1.5}
+.host{width:min(1300px,100%)}.top{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:16px}.pill{background:#ffffff0d;border:1px solid #ffffff16;border-radius:999px;padding:9px 13px;font-weight:900}
+.game{background:#ffffff08;border:1px solid #ffffff14;border-radius:30px;padding:clamp(20px,4vw,48px);text-align:center;box-shadow:0 20px 70px #0005}
+.round{font-size:14px;letter-spacing:.18em;font-weight:1000;color:#cfc6ff}.difficulty{margin-top:10px;font-size:18px;font-weight:1000}.titlePrompt{font-size:clamp(30px,6vw,70px);font-weight:1000;margin:22px 0}
+.count{font-size:clamp(90px,18vw,190px);line-height:.8;font-weight:1000;margin:25px 0;color:#fff;text-shadow:0 0 40px #8b5cf677}
+.answer{margin:25px auto 0;padding:22px;border-radius:20px;background:#20e3a212;border:1px solid #20e3a255;max-width:800px}.answer h2{font-size:clamp(30px,5vw,55px);margin:0}.answer p{margin:7px;color:var(--muted)}
+.hostControls{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:24px}.play{font-size:clamp(22px,4vw,34px);padding:24px 42px}
+.audio{width:min(760px,100%);margin:15px auto;display:block}.status{min-height:24px;color:var(--muted);font-weight:700}
+.teams{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin:18px 0}.team{background:#ffffff09;border:1px solid #ffffff14;border-radius:16px;padding:13px}.team strong{display:block}.team .pts{font-size:28px;font-weight:1000;color:#cfc6ff}
+.scoreBtns{display:flex;gap:7px;justify-content:center;margin-top:8px}.scoreBtns button{border:0;border-radius:10px;padding:8px 12px;cursor:pointer;font-weight:900}
+.admin{margin-top:18px;background:#ffffff08;border:1px solid #ffffff14;border-radius:22px;padding:20px}.admin input{background:#080d1d;color:#fff;border:1px solid #ffffff18;border-radius:8px;padding:8px;width:100%}
+.row{display:grid;grid-template-columns:42px 1.3fr 1fr 90px 90px;gap:8px;padding:10px 0;border-bottom:1px solid #ffffff0e;align-items:center}.small{font-size:12px;color:var(--muted)}
+.room{display:flex;gap:20px;align-items:center;justify-content:center;flex-wrap:wrap}.roomCode{font-size:clamp(42px,8vw,80px);font-weight:1000;letter-spacing:.12em}.qr{background:#fff;padding:12px;border-radius:14px;display:inline-block}
+.audience{width:min(1000px,100%);text-align:center}.audience .game{min-height:70vh;display:flex;flex-direction:column;justify-content:center}.audience .titlePrompt{font-size:clamp(42px,9vw,110px)}.audience .count{font-size:clamp(120px,25vw,260px)}
+.final{text-align:center}.winner{font-size:clamp(45px,9vw,100px);font-weight:1000;margin:15px}.confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:50}
+.piece{position:absolute;width:10px;height:18px;top:-30px;animation:fall 2.7s linear forwards}@keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:.8}}
+.joinbox{max-width:520px;margin:22px auto;background:#ffffff08;border:1px solid #ffffff16;border-radius:20px;padding:20px}.joinbox input{width:100%;padding:15px;border-radius:12px;border:1px solid #ffffff1c;background:#080d1d;color:white;font-size:22px;text-align:center;text-transform:uppercase}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#111a30;border:1px solid #ffffff20;padding:12px 18px;border-radius:12px;display:none;z-index:60}
 @media(max-width:700px){.row{grid-template-columns:32px 1fr}.row input{grid-column:span 1}.top{font-size:13px}.game{border-radius:20px}.btn.big{min-width:0;width:100%}}
 </style>
 </head>
@@ -19,12 +40,9 @@ body{overflow-x:hidden}.screen{min-height:100vh;display:flex;align-items:center;
 <div id="home" class="screen"><div class="wrap hero">
 <span class="eyebrow">BIRTHDAY PARTY • TAMIL MUSIC QUIZ</span>
 <h1>🎂 HAPPY BIRTHDAY!</h1><h2>🎵 Guess the Song</h2>
-<p>20 Tamil songs • 2020–2026 • randomized every game</p>
-<div class="buttons">
-<button class="btn big" onclick="startHost()">🎤 HOST QUIZ</button>
-<button class="btn big dark" onclick="showJoin()">📱 JOIN ON PHONE</button>
-</div>
-<p class="notice">Host mode controls the music and answers. Audience mode lets phones follow the round, countdown and reveal in real time.</p>
+<p>20 crowd-recognizable Tamil songs • 2010+ • randomized every game</p>
+<div class="buttons"><button class="btn big" onclick="startHost()">🎤 HOST QUIZ</button><button class="btn big dark" onclick="showJoin()">📱 JOIN ON PHONE</button></div>
+<p class="notice">The host controls the music and answers. Audience phones follow the round, countdown, reveal and scores in real time.</p>
 </div></div>
 
 <div id="join" class="screen hidden"><div class="wrap hero">
@@ -34,16 +52,19 @@ body{overflow-x:hidden}.screen{min-height:100vh;display:flex;align-items:center;
 </div></div>
 
 <div id="host" class="screen hidden"><div class="host wrap">
-<div class="top"><div class="pill">🎤 HOST</div><div class="pill" id="roomPill">Room: —</div><div class="pill" id="hostScore">0 / 20</div></div>
+<div class="top"><div class="pill">🎤 HOST</div><div class="pill" id="roomPill">Room: —</div><div class="pill" id="hostScore">0 pts</div></div>
 <div class="game">
-<div class="round" id="roundNo">ROUND 1 / 20</div><div class="difficulty" id="difficulty">EASY</div>
+<div class="round" id="roundNo">ROUND 1 / 20</div><div class="difficulty" id="difficulty">READY</div>
 <div class="titlePrompt">🎧 LISTEN CAREFULLY...</div>
-<audio id="audio" class="audio" controls></audio>
-<div id="count" class="count">10</div>
+<audio id="bgmAudio" class="audio" controls preload="auto"></audio>
+<audio id="fullAudio" class="audio hidden" preload="auto"></audio>
+<div id="count" class="count">5</div>
+<div id="audioStatus" class="status">Press PLAY SONG to begin.</div>
 <div class="hostControls">
 <button class="btn play" onclick="playClip()">🔊 PLAY SONG</button>
 <button class="btn dark" onclick="replayClip()">↻ REPLAY</button>
-<button class="btn green play" onclick="revealAnswer()">🚨 REVEAL</button><button id="actualBtn" class="btn dark play hidden" onclick="playActualSong()">🎶 PLAY ACTUAL SONG</button>
+<button class="btn green play" onclick="revealAnswer()">🚨 REVEAL</button>
+<button id="actualBtn" class="btn dark play hidden" onclick="playActualSong()">🎶 PLAY ACTUAL SONG</button>
 <button class="btn dark" onclick="nextRound()">NEXT →</button>
 </div>
 <div id="answer" class="answer hidden"></div>
@@ -51,12 +72,9 @@ body{overflow-x:hidden}.screen{min-height:100vh;display:flex;align-items:center;
 <div class="teams" id="teams"></div>
 <div class="buttons">
 <button class="btn dark" onclick="toggleAdmin()">📝 Edit Songs</button>
-<button class="btn dark" onclick="document.getElementById('files').click()">🎧 Load Audio Folder</button>
-<input id="files" type="file" accept="audio/*" multiple webkitdirectory style="display:none" onchange="loadFiles(this.files)">
 <button class="btn red" onclick="finishQuiz()">🏁 Finish Quiz</button>
 </div>
-<div id="roomShare" class="admin hidden"></div>
-<div id="admin" class="admin hidden"></div>
+<div id="roomShare" class="admin hidden"></div><div id="admin" class="admin hidden"></div>
 </div></div>
 
 <div id="audience" class="screen hidden"><div class="audience wrap">
@@ -69,76 +87,141 @@ body{overflow-x:hidden}.screen{min-height:100vh;display:flex;align-items:center;
 <div id="leaderboard"></div><div class="winner" id="winner"></div>
 <button class="btn big" onclick="location.reload()">🎉 PLAY AGAIN</button>
 </div></div>
+
 <div id="confetti" class="confetti"></div><div id="toast" class="toast"></div>
 
 <script>
-const songs=[{"round": 1, "title": "Why This Kolaveri Di", "movie": "3", "artist": "Dhanush, Anirudh Ravichander", "year": "2012", "difficulty": "Easy", "clipStart": 0, "clipLength": 10, "audio": "audio/Why_This_Kolaveri_Di.mp3", "bgm": "bgm/Why_This_Kolaveri_Di_quiz.mp3", "clue": "Optional clue — add your own short, non-spoiling clue."}, {"round": 2, "title": "Vaathi Coming", "movie": "Master", "artist": "Anirudh Ravichander, Gana Balachandar", "year": "2020", "difficulty": "Easy", "clipStart": 0, "clipLength": 10, "audio": "audio/Vaathi_Coming.mp3", "bgm": "bgm/Vaathi_Coming_quiz.mp3", "clue": "Optional clue — add your own short, non-spoiling clue."}, {"round": 3, "title": "Idhazhin Oram", "movie": "3", "artist": "Anirudh Ravichander, Ajesh Ashok", "year": "2012", "difficulty": "Easy", "clipStart": 0, "clipLength": 10, "audio": "audio/Idhazhin_Oram.mp3", "bgm": "bgm/Idhazhin_Oram_quiz.mp3", "clue": "Optional clue — add your own short, non-spoiling clue."}, {"round": 4, "title": "Aaluma Doluma", "movie": "Vedalam", "artist": "Anirudh Ravichander, Badshah", "year": "2015", "difficulty": "Easy", "clipStart": 0, "clipLength": 10, "audio": "audio/Aaluma_Doluma.mp3", "bgm": "bgm/Aaluma_Doluma_quiz.mp3", "clue": "Optional clue — add your own short, non-spoiling clue."}, {"round": 5, "title": "Don'u Don'u Don'u", "movie": "Maari", "artist": "Anirudh Ravichander, Alisha Thomas", "year": "2015", "difficulty": "Easy", "clipStart": 0, "clipLength": 10, "audio": "audio/Don_u_Don_u_Don_u.mp3", "bgm": "bgm/Don_u_Don_u_Don_u_quiz.mp3", "clue": "Optional clue — add your own short, non-spoiling clue."}, {"round": 6, "title": "Rowdy Baby", "movie": "Maari 2", "artist": "Dhanush, Dhee", "year": "2018", "difficulty": "Medium", "clipStart": 0, "clipLength": 10, "audio": "audio/Rowdy_Baby.mp3", "bgm": "bgm/Rowdy_Baby_quiz.mp3", "clue": "Optional clue — add your own short, non-spoiling clue."}, {"round": 7, "title": "Kannale Kannale", "movie": "Thani Oruvan", "artist": "Hiphop Tamizha, Kaushik Krish, Padmalatha", "year": "2015", "difficulty": "Medium", "clipStart": 0, "clipLength": 10, "audio": "audio/Kannale_Kannale.mp3", "bgm": "bgm/Kannale_Kannale_quiz.mp3", "clue": "Optional clue — add your own short, non-spoiling clue."}, {"round": 8, "title": "Mental Manadhil", "movie": "O Kadhal Kanmani", "artist": "A. R. Rahman, Jonita Gandhi", "year": "2015", "difficulty": "Medium", "clipStart": 0, "clipLength": 10, "audio": "audio/Mental_Manadhil.mp3", "bgm": "bgm/Mental_Manadhil_quiz.mp3", "clue": "Optional clue — add your own short, non-spoiling clue."}, {"round": 9, "title": "Tum Tum", "movie": "Enemy", "artist": "S. Thaman, Sri Vardhini, Aditi Bhavaraju, Satya Yamini, Roshini JKV, Tejaswini", "year": "2021", "difficulty": "Medium", "clipStart": 0, "clipLength": 10, "audio": "audio/Tum_Tum.mp3", "bgm": "bgm/Tum_Tum_quiz.mp3", "clue": "Optional clue — add your own short, non-spoiling clue."}, {"round": 10, "title": "Rakita", "movie": "Jagame Thandhiram", "artist": "Santhosh Narayanan, Dhanush, Meenakshi Elayaraja", "year": "2021", "difficulty": "Medium", "clipStart": 0, "clipLength": 10, "audio": "audio/Rakita.mp3", "bgm": "bgm/Rakita_quiz.mp3", "clue": "Optional clue — add your own short, non-spoiling clue."}, {"round": 11, "title": "Megham Karukatha", "movie": "Thiruchitrambalam", "artist": "Dhanush", "year": "2022", "difficulty": "Hard", "clipStart": 0, "clipLength": 10, "audio": "audio/Megham_Karukatha.mp3", "bgm": "bgm/Megham_Karukatha_quiz.mp3", "clue": "Optional clue — add your own short, non-spoiling clue."}, {"round": 12, "title": "Arabic Kuthu", "movie": "Beast", "artist": "Anirudh Ravichander, Jonita Gandhi", "year": "2022", "difficulty": "Hard", "clipStart": 0, "clipLength": 10, "audio": "audio/Arabic_Kuthu.mp3", "bgm": "bgm/Arabic_Kuthu_quiz.mp3", "clue": "Optional clue — add your own short, non-spoiling clue."}, {"round": 13, "title": "Pathala Pathala", "movie": "Vikram", "artist": "Anirudh Ravichander, Kamal Haasan", "year": "2022", "difficulty": "Hard", "clipStart": 0, "clipLength": 10, "audio": "audio/Pathala_Pathala.mp3", "bgm": "bgm/Pathala_Pathala_quiz.mp3", "clue": "Optional clue — add your own short, non-spoiling clue."}, {"round": 14, "title": "Mallipoo", "movie": "Vendhu Thanindhathu Kadu", "artist": "A. R. Rahman, Madhushree", "year": "2022", "difficulty": "Hard", "clipStart": 0, "clipLength": 10, "audio": "audio/Mallipoo.mp3", "bgm": "bgm/Mallipoo_quiz.mp3", "clue": "Optional clue — add your own short, non-spoiling clue."}, {"round": 15, "title": "Kaavaalaa", "movie": "Jailer", "artist": "Anirudh Ravichander, Shilpa Rao", "year": "2023", "difficulty": "Hard", "clipStart": 0, "clipLength": 10, "audio": "audio/Kaavaalaa.mp3", "bgm": "bgm/Kaavaalaa_quiz.mp3", "clue": "Optional clue — add your own short, non-spoiling clue."}, {"round": 16, "title": "Naa Ready", "movie": "Leo", "artist": "Anirudh Ravichander, Vijay, Asal Kolaar", "year": "2023", "difficulty": "Expert", "clipStart": 0, "clipLength": 10, "audio": "audio/Naa_Ready.mp3", "bgm": "bgm/Naa_Ready_quiz.mp3", "clue": "Optional clue — add your own short, non-spoiling clue."}, {"round": 17, "title": "Hukum", "movie": "Jailer", "artist": "Anirudh Ravichander, Super Subu", "year": "2023", "difficulty": "Expert", "clipStart": 0, "clipLength": 10, "audio": "audio/Hukum.mp3", "bgm": "bgm/Hukum_quiz.mp3", "clue": "Optional clue — add your own short, non-spoiling clue."}, {"round": 18, "title": "Katchi Sera", "movie": "Think Indie", "artist": "Sai Abhyankkar", "year": "2024", "difficulty": "Expert", "clipStart": 0, "clipLength": 10, "audio": "audio/Katchi_Sera.mp3", "bgm": "bgm/Katchi_Sera_quiz.mp3", "clue": "Optional clue — add your own short, non-spoiling clue."}, {"round": 19, "title": "Hey Minnale", "movie": "Amaran", "artist": "G. V. Prakash Kumar, Haricharan, Shweta Mohan", "year": "2024", "difficulty": "Expert", "clipStart": 0, "clipLength": 10, "audio": "audio/Hey_Minnale.mp3", "bgm": "bgm/Hey_Minnale_quiz.mp3", "clue": "Optional clue — add your own short, non-spoiling clue."}, {"round": 20, "title": "Kannazhaga", "movie": "3", "artist": "Dhanush, Shruti Haasan", "year": "2012", "difficulty": "Impossible", "clipStart": 0, "clipLength": 10, "audio": "audio/Kannazhaga.mp3", "bgm": "bgm/Kannazhaga_quiz.mp3", "clue": "Optional clue — add your own short, non-spoiling clue."}];
-let order=[],current=0,score=0,audioFiles={},teams=[{name:"Team 1",score:0},{name:"Team 2",score:0}],peer=null,connections=[],isHost=false;
+const songs = [
+{title:"Why This Kolaveri Di",movie:"3",artist:"Dhanush, Anirudh Ravichander",year:"2012",difficulty:"Easy",audio:"audio/Why_This_Kolaveri_Di.mp3",bgm:"bgm/Why_This_Kolaveri_Di_quiz.mp3"},
+{title:"Vaathi Coming",movie:"Master",artist:"Anirudh Ravichander, Gana Balachandar",year:"2020",difficulty:"Easy",audio:"audio/Vaathi_Coming.mp3",bgm:"bgm/Vaathi_Coming_quiz.mp3"},
+{title:"Idhazhin Oram",movie:"3",artist:"Anirudh Ravichander, Ajesh Ashok",year:"2012",difficulty:"Easy",audio:"audio/Idhazhin_Oram.mp3",bgm:"bgm/Idhazhin_Oram_quiz.mp3"},
+{title:"Aaluma Doluma",movie:"Vedalam",artist:"Anirudh Ravichander, Badshah",year:"2015",difficulty:"Easy",audio:"audio/Aaluma_Doluma.mp3",bgm:"bgm/Aaluma_Doluma_quiz.mp3"},
+{title:"Don'u Don'u Don'u",movie:"Maari",artist:"Anirudh Ravichander, Alisha Thomas",year:"2015",difficulty:"Easy",audio:"audio/Don_u_Don_u_Don_u.mp3",bgm:"bgm/Don_u_Don_u_Don_u_quiz.mp3"},
+{title:"Rowdy Baby",movie:"Maari 2",artist:"Dhanush, Dhee",year:"2018",difficulty:"Medium",audio:"audio/Rowdy_Baby.mp3",bgm:"bgm/Rowdy_Baby_quiz.mp3"},
+{title:"Kannale Kannale",movie:"Thani Oruvan",artist:"Hiphop Tamizha, Kaushik Krish, Padmalatha",year:"2015",difficulty:"Medium",audio:"audio/Kannale_Kannale.mp3",bgm:"bgm/Kannale_Kannale_quiz.mp3"},
+{title:"Mental Manadhil",movie:"O Kadhal Kanmani",artist:"A. R. Rahman, Jonita Gandhi",year:"2015",difficulty:"Medium",audio:"audio/Mental_Manadhil.mp3",bgm:"bgm/Mental_Manadhil_quiz.mp3"},
+{title:"Tum Tum",movie:"Enemy",artist:"S. Thaman, Sri Vardhini, Aditi Bhavaraju, Satya Yamini, Roshini JKV, Tejaswini",year:"2021",difficulty:"Medium",audio:"audio/Tum_Tum.mp3",bgm:"bgm/Tum_Tum_quiz.mp3"},
+{title:"Rakita",movie:"Jagame Thandhiram",artist:"Santhosh Narayanan, Dhanush, Meenakshi Elayaraja",year:"2021",difficulty:"Medium",audio:"audio/Rakita.mp3",bgm:"bgm/Rakita_quiz.mp3"},
+{title:"Megham Karukatha",movie:"Thiruchitrambalam",artist:"Dhanush",year:"2022",difficulty:"Hard",audio:"audio/Megham_Karukatha.mp3",bgm:"bgm/Megham_Karukatha_quiz.mp3"},
+{title:"Arabic Kuthu",movie:"Beast",artist:"Anirudh Ravichander, Jonita Gandhi",year:"2022",difficulty:"Hard",audio:"audio/Arabic_Kuthu.mp3",bgm:"bgm/Arabic_Kuthu_quiz.mp3"},
+{title:"Pathala Pathala",movie:"Vikram",artist:"Anirudh Ravichander, Kamal Haasan",year:"2022",difficulty:"Hard",audio:"audio/Pathala_Pathala.mp3",bgm:"bgm/Pathala_Pathala_quiz.mp3"},
+{title:"Mallipoo",movie:"Vendhu Thanindhathu Kadu",artist:"A. R. Rahman, Madhushree",year:"2022",difficulty:"Hard",audio:"audio/Mallipoo.mp3",bgm:"bgm/Mallipoo_quiz.mp3"},
+{title:"Kaavaalaa",movie:"Jailer",artist:"Anirudh Ravichander, Shilpa Rao",year:"2023",difficulty:"Hard",audio:"audio/Kaavaalaa.mp3",bgm:"bgm/Kaavaalaa_quiz.mp3"},
+{title:"Naa Ready",movie:"Leo",artist:"Anirudh Ravichander, Vijay, Asal Kolaar",year:"2023",difficulty:"Expert",audio:"audio/Naa_Ready.mp3",bgm:"bgm/Naa_Ready_quiz.mp3"},
+{title:"Hukum",movie:"Jailer",artist:"Anirudh Ravichander, Super Subu",year:"2023",difficulty:"Expert",audio:"audio/Hukum.mp3",bgm:"bgm/Hukum_quiz.mp3"},
+{title:"Katchi Sera",movie:"Think Indie",artist:"Sai Abhyankkar",year:"2024",difficulty:"Expert",audio:"audio/Katchi_Sera.mp3",bgm:"bgm/Katchi_Sera_quiz.mp3"},
+{title:"Hey Minnale",movie:"Amaran",artist:"G. V. Prakash Kumar, Haricharan, Shweta Mohan",year:"2024",difficulty:"Expert",audio:"audio/Hey_Minnale.mp3",bgm:"bgm/Hey_Minnale_quiz.mp3"},
+{title:"Kannazhaga",movie:"3",artist:"Dhanush, Shruti Haasan",year:"2012",difficulty:"Impossible",audio:"audio/Kannazhaga.mp3",bgm:"bgm/Kannazhaga_quiz.mp3"}
+];
+
+let order=[],current=0,teams=[{name:"Team 1",score:0},{name:"Team 2",score:0}],peer=null,connections=[],countTimer=null,stopTimer=null;
+
 const $=id=>document.getElementById(id);
 function goHome(){location.reload()}
-function shuffle(a){return [...a].sort(()=>Math.random()-.5)}
-function startHost(){
- isHost=true;order=shuffle(songs);current=0;score=0;show("host");renderTeams();showRound();setupPeer();
-}
+function shuffle(a){return [...a].sort(()=>Math.random()-0.5)}
 function show(id){["home","join","host","audience","final"].forEach(x=>$(x).classList.toggle("hidden",x!==id))}
+function startHost(){order=shuffle(songs);current=0;teams=[{name:"Team 1",score:0},{name:"Team 2",score:0}];show("host");renderTeams();showRound();setupPeer()}
 function setupPeer(){
- peer=new Peer("tamilquiz-"+Math.random().toString(36).slice(2,7).toUpperCase());
- peer.on("open",id=>{let code=id.split("-")[1];$("roomPill").textContent="Room: "+code;renderShare(code)});
- peer.on("connection",c=>{connections.push(c);c.on("open",()=>syncAudience(c));});
+  if(typeof Peer==="undefined"){toast("Audience mode library did not load. Host mode still works.");return}
+  peer=new Peer("tamilquiz-"+Math.random().toString(36).slice(2,7).toUpperCase());
+  peer.on("open",id=>{let code=id.split("-")[1];$("roomPill").textContent="Room: "+code;renderShare(code)})
+  peer.on("connection",c=>{connections.push(c);c.on("open",()=>syncAudience(c))})
+  peer.on("error",()=>toast("Audience connection error. The host quiz can still continue."))
 }
 function renderShare(code){
- $("roomShare").classList.remove("hidden");
- $("roomShare").innerHTML=`<div class="room"><div><div class="small">AUDIENCE ROOM CODE</div><div class="roomCode">${code}</div><div class="small">Open this same page on phones → JOIN ON PHONE</div></div><div id="qr" class="qr"></div></div>`;
- try{new QRCode($("qr"),{text:location.href, width:150,height:150})}catch(e){}
+  $("roomShare").classList.remove("hidden");
+  $("roomShare").innerHTML=`<div class="room"><div><div class="small">AUDIENCE ROOM CODE</div><div class="roomCode">${code}</div><div class="small">Open this same page on phones → JOIN ON PHONE</div></div><div id="qr" class="qr"></div></div>`;
+  try{new QRCode($("qr"),{text:location.href,width:150,height:150})}catch(e){}
 }
-function syncAudience(c){c.send({type:"state",round:current,visibleRound:current+1,total:order.length,diff:order[current]?.difficulty||"",state:"ready"});if($("answer").classList.contains("hidden")===false)c.send({type:"reveal",song:order[current]})}
+function syncAudience(c){
+  c.send({type:"state",round:current,visibleRound:current+1,total:order.length,diff:order[current]?.difficulty||"",state:"ready"});
+  if(!$("answer").classList.contains("hidden"))c.send({type:"reveal",song:order[current]});
+}
 function broadcast(msg){connections.forEach(c=>{try{if(c.open)c.send(msg)}catch(e){}})}
 function showRound(){
- const s=order[current];$("roundNo").textContent=`ROUND ${current+1} / ${order.length}`;$("difficulty").textContent=s.difficulty.toUpperCase();
- $("answer").classList.add("hidden");$("answer").innerHTML="";$("count").textContent=s.clipLength;
- const a=$("audio");a.pause();a.currentTime=0;a.src=s.bgm || audioFiles[s.title] || ""; $("actualBtn").classList.add("hidden");
- broadcast({type:"state",round:current,visibleRound:current+1,total:order.length,diff:s.difficulty,state:"ready"});
+  stopAudio($("bgmAudio"));stopAudio($("fullAudio"));
+  const s=order[current];
+  $("roundNo").textContent=`ROUND ${current+1} / ${order.length}`;
+  $("difficulty").textContent=s.difficulty.toUpperCase();
+  $("answer").classList.add("hidden");$("answer").innerHTML="";
+  $("actualBtn").classList.add("hidden");
+  $("count").textContent="5";
+  $("audioStatus").textContent="Press PLAY SONG to begin.";
+  $("bgmAudio").removeAttribute("src");$("fullAudio").removeAttribute("src");
+  broadcast({type:"state",round:current,visibleRound:current+1,total:order.length,diff:s.difficulty,state:"ready"});
 }
-function playClip(){
- const s=order[current],a=$("audio");if(!a.src){toast("Load your legally obtained audio clips first.");return}
- a.currentTime=s.clipStart;a.play();let t=5;$("count").textContent=t;broadcast({type:"count",value:t});
- const tick=setInterval(()=>{t--;if(t>=0){$("count").textContent=t;broadcast({type:"count",value:t})}if(t<=0)clearInterval(tick)},1000);
- const stop=()=>{if(a.currentTime>=s.clipLength){a.pause();a.removeEventListener("timeupdate",stop)}};a.addEventListener("timeupdate",stop);
+function loadAudioElement(el,url){
+  return new Promise((resolve,reject)=>{
+    el.pause();el.currentTime=0;el.src=url;el.preload="auto";el.load();
+    const ok=()=>{cleanup();resolve()};
+    const bad=()=>{cleanup();reject(new Error("Audio failed to load: "+url))};
+    const cleanup=()=>{el.removeEventListener("canplay",ok);el.removeEventListener("loadeddata",ok);el.removeEventListener("error",bad)};
+    el.addEventListener("canplay",ok,{once:true});el.addEventListener("loadeddata",ok,{once:true});el.addEventListener("error",bad,{once:true});
+    setTimeout(()=>{if(el.readyState>=2)ok()},8000);
+  });
+}
+async function playClip(){
+  const s=order[current],a=$("bgmAudio");
+  if(!s?.bgm){toast("No BGM file is configured for this song.");return}
+  clearInterval(countTimer);clearTimeout(stopTimer);stopAudio($("fullAudio"));
+  $("audioStatus").textContent="Loading BGM…";
+  try{
+    await loadAudioElement(a,s.bgm);
+    a.currentTime=0;
+    await a.play();
+    $("audioStatus").textContent="🎵 BGM playing";
+    let t=5;$("count").textContent=t;broadcast({type:"count",value:t});
+    countTimer=setInterval(()=>{t--;if(t>=0){$("count").textContent=t;broadcast({type:"count",value:t})}if(t<=0)clearInterval(countTimer)},1000);
+    stopTimer=setTimeout(()=>{a.pause();$("audioStatus").textContent="BGM finished — make your guess!";},10000);
+  }catch(err){
+    console.error(err);$("audioStatus").textContent="Audio could not load. Check the MP3 path.";
+    toast("The BGM file could not be played. The file may be missing or invalid.");
+  }
 }
 function replayClip(){playClip()}
 function revealAnswer(){
- const s=order[current];$("answer").innerHTML=`<h2>🎉 ${esc(s.title)}</h2><p>${esc(s.movie)} • ${s.year}</p><p><strong>${esc(s.artist)}</strong></p>`;$("answer").classList.remove("hidden");$("actualBtn").classList.remove("hidden");
- broadcast({type:"reveal",song:s});confetti();
+  const s=order[current];
+  $("answer").innerHTML=`<h2>🎉 ${esc(s.title)}</h2><p>${esc(s.movie)} • ${s.year}</p><p><strong>${esc(s.artist)}</strong></p>`;
+  $("answer").classList.remove("hidden");$("actualBtn").classList.remove("hidden");
+  broadcast({type:"reveal",song:s});confetti();
 }
-function playActualSong(){
- const s=order[current],a=$("audio");
- a.pause();a.currentTime=0;a.src=s.audio||"";
- if(!a.src){toast("No full song is available.");return}
- a.play();
- $("actualBtn").classList.add("hidden");
+async function playActualSong(){
+  const s=order[current],a=$("fullAudio");
+  if(!s?.audio){toast("No full song is configured.");return}
+  clearInterval(countTimer);clearTimeout(stopTimer);stopAudio($("bgmAudio"));
+  $("audioStatus").textContent="Loading full song…";
+  try{
+    await loadAudioElement(a,s.audio);a.currentTime=0;await a.play();
+    $("audioStatus").textContent="🎶 Full song playing";$("actualBtn").classList.add("hidden");
+  }catch(err){
+    console.error(err);$("audioStatus").textContent="Full song could not load.";toast("The full-song MP3 could not be played.");
+  }
 }
+function stopAudio(a){try{a.pause();a.removeAttribute("src");a.load()}catch(e){}}
 function nextRound(){if(current>=order.length-1){finishQuiz();return}current++;showRound()}
 function finishQuiz(){broadcast({type:"finish",teams});show("final");renderFinal()}
 function renderTeams(){$("teams").innerHTML=teams.map((t,i)=>`<div class="team"><strong>${esc(t.name)}</strong><div class="pts">${t.score}</div><div class="scoreBtns"><button onclick="addPoint(${i},-1)">−1</button><button onclick="addPoint(${i},1)">+1</button></div></div>`).join("")}
 function addPoint(i,n){teams[i].score=Math.max(0,teams[i].score+n);renderTeams();broadcast({type:"scores",teams});$("hostScore").textContent=teams.reduce((a,b)=>a+b.score,0)+" pts"}
-function renderFinal(){let sorted=[...teams].sort((a,b)=>b.score-a.score);$("leaderboard").innerHTML=sorted.map((t,i)=>`<div class="panel"><strong>${i+1}. ${esc(t.name)}</strong><div class="pts">${t.score} points</div></div>`).join("");$("winner").textContent=sorted[0]?.name?`🎉 WINNER: ${sorted[0].name}!`:"🎉 Great game!"}
+function renderFinal(){let sorted=[...teams].sort((a,b)=>b.score-a.score);$("leaderboard").innerHTML=sorted.map((t,i)=>`<div class="answer" style="max-width:600px"><strong>${i+1}. ${esc(t.name)}</strong><div class="pts">${t.score} points</div></div>`).join("");$("winner").textContent=sorted[0]?.name?`🎉 WINNER: ${sorted[0].name}!`:"🎉 Great game!"}
 function toggleAdmin(){let a=$("admin");a.classList.toggle("hidden");if(!a.classList.contains("hidden"))renderAdmin()}
-function renderAdmin(){$("admin").innerHTML=`<h3>Song list & audio settings</h3><p class="small">20 songs are 2020–2026 only. The 10-second quiz BGM clips and full answer songs are bundled with this version.</p>`+order.map((s,i)=>`<div class="row"><b>${i+1}</b><div><strong>${esc(s.title)}</strong><div class="small">${esc(s.movie)} • ${s.year}</div></div><div><div class="small">${esc(s.artist)}</div></div><input type="number" min="0" value="${s.clipStart}" onchange="s.clipStart=+this.value"><input type="number" min="1" value="${s.clipLength}" onchange="s.clipLength=+this.value"></div>`).join("")}
-function loadFiles(files){let found=0;[...files].forEach(f=>{let base=f.name.replace(/\.[^.]+$/,"").toLowerCase().trim(),s=songs.find(x=>x.title.toLowerCase()===base);if(s){audioFiles[s.title]=URL.createObjectURL(f);found++}});toast(`Loaded ${found} matching audio file(s).`)}
+function renderAdmin(){$("admin").innerHTML=`<h3>Song list & audio settings</h3><p class="small">The bundled MP3 paths are used automatically. No folder upload is required.</p>`+order.map((s,i)=>`<div class="row"><b>${i+1}</b><div><strong>${esc(s.title)}</strong><div class="small">${esc(s.movie)} • ${s.year}</div></div><div><div class="small">${esc(s.artist)}</div></div><div class="small">${esc(s.bgm)}</div><div class="small">${esc(s.audio)}</div></div>`).join("")}
 function showJoin(){show("join");$("joinCode").focus()}
 function joinRoom(){
- let code=$("joinCode").value.trim().toUpperCase();if(!code)return;
- $("joinStatus").textContent="Connecting…";peer=new Peer();peer.on("open",()=>{let c=peer.connect("tamilquiz-"+code);c.on("open",()=>{$("joinStatus").textContent="Connected! Watch the main screen for the quiz.";show("audience")});c.on("data",handleAudience);c.on("close",()=>{$("joinStatus").textContent="Connection closed."})});peer.on("error",e=>{$("joinStatus").textContent="Could not connect. Check the room code and internet connection."})
+  let code=$("joinCode").value.trim().toUpperCase();if(!code)return;
+  if(typeof Peer==="undefined"){$("joinStatus").textContent="Connection library did not load. Refresh and try again.";return}
+  $("joinStatus").textContent="Connecting…";peer=new Peer();
+  peer.on("open",()=>{let c=peer.connect("tamilquiz-"+code);c.on("open",()=>{$("joinStatus").textContent="Connected! Watch the main screen for the quiz.";show("audience")});c.on("data",handleAudience);c.on("close",()=>{$("joinStatus").textContent="Connection closed."})});
+  peer.on("error",()=>{$("joinStatus").textContent="Could not connect. Check the room code and internet connection."})
 }
 function handleAudience(m){
- if(m.type==="state"){show("audience");$("audRound").textContent=`ROUND ${m.visibleRound} / ${m.total}`;$("audDiff").textContent=m.diff.toUpperCase();$("audPrompt").textContent="🎧 LISTEN CAREFULLY...";$("audCount").textContent="—";$("audAnswer").classList.add("hidden")}
- if(m.type==="count"){$("audCount").textContent=m.value}
- if(m.type==="reveal"){$("audAnswer").innerHTML=`<h2>🎉 ${esc(m.song.title)}</h2><p>${esc(m.song.movie)} • ${m.song.year}</p><p>${esc(m.song.artist)}</p>`;$("audAnswer").classList.remove("hidden");confetti()}
- if(m.type==="finish"){show("final");teams=m.teams||teams;renderFinal()}
- if(m.type==="scores"){teams=m.teams||teams}
+  if(m.type==="state"){show("audience");$("audRound").textContent=`ROUND ${m.visibleRound} / ${m.total}`;$("audDiff").textContent=m.diff.toUpperCase();$("audPrompt").textContent="🎧 LISTEN CAREFULLY...";$("audCount").textContent="—";$("audAnswer").classList.add("hidden")}
+  if(m.type==="count")$("audCount").textContent=m.value;
+  if(m.type==="reveal"){$("audAnswer").innerHTML=`<h2>🎉 ${esc(m.song.title)}</h2><p>${esc(m.song.movie)} • ${m.song.year}</p><p>${esc(m.song.artist)}</p>`;$("audAnswer").classList.remove("hidden");confetti()}
+  if(m.type==="finish"){show("final");teams=m.teams||teams;renderFinal()}
+  if(m.type==="scores"){teams=m.teams||teams}
 }
 function confetti(){let c=$("confetti");c.innerHTML="";for(let i=0;i<80;i++){let p=document.createElement("i");p.className="piece";p.style.left=Math.random()*100+"%";p.style.animationDelay=Math.random()*.7+"s";p.style.background=["#ff4fa3","#8b5cf6","#20e3a2","#ffd166","#5ee7ff"][i%5];p.style.transform=`rotate(${Math.random()*360}deg)`;c.appendChild(p)}setTimeout(()=>c.innerHTML="",3000)}
-function toast(s){$("toast").textContent=s;$("toast").style.display="block";setTimeout(()=>$("toast").style.display="none",2600)}
+function toast(s){$("toast").textContent=s;$("toast").style.display="block";setTimeout(()=>$("toast").style.display="none",3200)}
 function esc(x){return String(x).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
 </script>
 </body>
