@@ -172,7 +172,7 @@ async function playClip(){
     $("audioStatus").textContent="🎵 BGM playing";
     let t=5;$("count").textContent=t;broadcast({type:"count",value:t});
     countTimer=setInterval(()=>{t--;if(t>=0){$("count").textContent=t;broadcast({type:"count",value:t})}if(t<=0)clearInterval(countTimer)},1000);
-    stopTimer=setTimeout(()=>{a.pause();$("audioStatus").textContent="BGM finished — make your guess!";},10000);
+    stopTimer=setTimeout(()=>{a.pause();a.currentTime=0;$("count").textContent="0";$("audioStatus").textContent="BGM finished — make your guess!";},5000);
   }catch(err){
     console.error(err);$("audioStatus").textContent="Audio could not load. Check the MP3 path.";
     toast("The BGM file could not be played. The file may be missing or invalid.");
