@@ -9,7 +9,18 @@
 <style>
 :root{--bg:#070b18;--panel:#11182d;--text:#f8f9ff;--muted:#aeb8d4;--purple:#8b5cf6;--pink:#ff4fa3;--green:#20e3a2;--yellow:#ffd166;--red:#ff5d73}
 *{box-sizing:border-box}html,body{margin:0;min-height:100%;background:radial-gradient(circle at 50% -10%,#3a2b72 0,#11172b 35%,#070b18 75%);color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-body{overflow-x:hidden}.screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}.hidden{display:none!important}.wrap{width:min(1200px,100%);margin:auto}.hero{text-align:center}
+body{overflow-x:hidden}.screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}.hidden{display:none!important}
+.hostPill{border:1px solid #ffffff16;color:var(--text);cursor:pointer;font:inherit;transition:.15s transform,.15s background}
+.hostPill:hover{transform:translateY(-1px);background:#ffffff18}
+.hostPanel{position:fixed;inset:0;background:#050815cc;backdrop-filter:blur(10px);z-index:80;display:flex;align-items:center;justify-content:center;padding:20px}
+.hostPanelCard{width:min(720px,100%);background:#11182d;border:1px solid #ffffff20;border-radius:24px;padding:24px;box-shadow:0 25px 90px #0008}
+.hostPanelHead{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}
+.hostPanelHead h2{margin:0;font-size:28px}
+.hostPanelGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.hostPanelGrid .btn{width:100%}
+.hostPanelInfo{margin:16px 0;padding:14px;border-radius:14px;background:#ffffff08;border:1px solid #ffffff12;color:var(--muted)}
+@media(max-width:600px){.hostPanelGrid{grid-template-columns:1fr}}
+.wrap{width:min(1200px,100%);margin:auto}.hero{text-align:center}
 .eyebrow{display:inline-block;padding:8px 14px;border-radius:999px;background:#ffffff12;border:1px solid #ffffff1c;color:#e4ddff;font-size:12px;font-weight:900;letter-spacing:.16em}
 .hero h1{font-size:clamp(48px,10vw,110px);line-height:.92;margin:22px 0 14px;font-weight:1000;background:linear-gradient(90deg,#fff,#f4d7ff,#b8f9ff);-webkit-background-clip:text;color:transparent}
 .hero h2{font-size:clamp(20px,3vw,32px);margin:0 0 12px}.hero p{color:var(--muted);font-size:17px}.buttons{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:26px}
@@ -52,7 +63,7 @@ body{overflow-x:hidden}.screen{min-height:100vh;display:flex;align-items:center;
 </div></div>
 
 <div id="host" class="screen hidden"><div class="host wrap">
-<div class="top"><div class="pill">🎤 HOST</div><div class="pill" id="roomPill">Room: —</div><div class="pill" id="hostScore">0 pts</div></div>
+<div class="top"><button class="pill hostPill" onclick="toggleHostPanel()" title="Open host controls">🎤 HOST</button><div class="pill" id="roomPill">Room: —</div><div class="pill" id="hostScore">0 pts</div></div>
 <div class="game">
 <div class="round" id="roundNo">ROUND 1 / 20</div><div class="difficulty" id="difficulty">READY</div>
 <div class="titlePrompt">🎧 LISTEN CAREFULLY...</div>
@@ -76,6 +87,28 @@ body{overflow-x:hidden}.screen{min-height:100vh;display:flex;align-items:center;
 </div>
 <div id="roomShare" class="admin hidden"></div><div id="admin" class="admin hidden"></div>
 </div></div>
+
+
+<div id="hostPanel" class="hostPanel hidden" onclick="if(event.target===this)toggleHostPanel()">
+  <div class="hostPanelCard">
+    <div class="hostPanelHead">
+      <h2>🎤 Host Controls</h2>
+      <button class="btn dark" onclick="toggleHostPanel()">✕ CLOSE</button>
+    </div>
+    <div class="hostPanelInfo">
+      <strong id="panelRoundInfo">Round 1</strong><br>
+      Use these controls to run the quiz from one place.
+    </div>
+    <div class="hostPanelGrid">
+      <button class="btn play" onclick="toggleHostPanel();playClip()">🔊 PLAY 5-SEC CLUE</button>
+      <button class="btn dark" onclick="toggleHostPanel();replayClip()">↻ REPLAY CLUE</button>
+      <button class="btn green play" onclick="toggleHostPanel();revealAnswer()">🚨 REVEAL ANSWER</button>
+      <button class="btn dark play" onclick="toggleHostPanel();playActualSong()">🎶 PLAY FULL SONG</button>
+      <button class="btn dark" onclick="toggleHostPanel();nextRound()">NEXT ROUND →</button>
+      <button class="btn red" onclick="toggleHostPanel();finishQuiz()">🏁 FINISH QUIZ</button>
+    </div>
+  </div>
+</div>
 
 <div id="audience" class="screen hidden"><div class="audience wrap">
 <div class="top"><div class="pill">📱 AUDIENCE</div><div class="pill" id="audRound">Waiting…</div></div>
@@ -117,6 +150,14 @@ const songs = [
 let order=[],current=0,teams=[{name:"Team 1",score:0},{name:"Team 2",score:0}],peer=null,connections=[],countTimer=null,stopTimer=null;
 
 const $=id=>document.getElementById(id);
+function toggleHostPanel(){
+  const panel=$("hostPanel");
+  if(!panel)return;
+  panel.classList.toggle("hidden");
+  if(!panel.classList.contains("hidden")){
+    $("panelRoundInfo").textContent=`Round ${current+1} / ${order.length}`;
+  }
+}
 function goHome(){location.reload()}
 function shuffle(a){return [...a].sort(()=>Math.random()-0.5)}
 function show(id){["home","join","host","audience","final"].forEach(x=>$(x).classList.toggle("hidden",x!==id))}
@@ -142,6 +183,7 @@ function showRound(){
   stopAudio($("bgmAudio"));stopAudio($("fullAudio"));
   const s=order[current];
   $("roundNo").textContent=`ROUND ${current+1} / ${order.length}`;
+  if($("panelRoundInfo"))$("panelRoundInfo").textContent=`Round ${current+1} / ${order.length}`;
   $("difficulty").textContent=s.difficulty.toUpperCase();
   $("answer").classList.add("hidden");$("answer").innerHTML="";
   $("actualBtn").classList.add("hidden");
@@ -172,7 +214,7 @@ async function playClip(){
     $("audioStatus").textContent="🎵 BGM playing";
     let t=5;$("count").textContent=t;broadcast({type:"count",value:t});
     countTimer=setInterval(()=>{t--;if(t>=0){$("count").textContent=t;broadcast({type:"count",value:t})}if(t<=0)clearInterval(countTimer)},1000);
-    stopTimer=setTimeout(()=>{a.pause();a.currentTime=0;$("count").textContent="0";$("audioStatus").textContent="BGM finished — make your guess!";},5000);
+    stopTimer=setTimeout(()=>{a.pause();$("audioStatus").textContent="BGM finished — make your guess!";},10000);
   }catch(err){
     console.error(err);$("audioStatus").textContent="Audio could not load. Check the MP3 path.";
     toast("The BGM file could not be played. The file may be missing or invalid.");
