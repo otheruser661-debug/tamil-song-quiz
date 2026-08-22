@@ -10,15 +10,14 @@
 :root{--bg:#070b18;--panel:#11182d;--text:#f8f9ff;--muted:#aeb8d4;--purple:#8b5cf6;--pink:#ff4fa3;--green:#20e3a2;--yellow:#ffd166;--red:#ff5d73}
 *{box-sizing:border-box}html,body{margin:0;min-height:100%;background:radial-gradient(circle at 50% -10%,#3a2b72 0,#11172b 35%,#070b18 75%);color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 body{overflow-x:hidden}.screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}.hidden{display:none!important}
-.hostPill{border:1px solid #ffffff16;color:var(--text);cursor:pointer;font:inherit;transition:.15s transform,.15s background}
-.hostPill:hover{transform:translateY(-1px);background:#ffffff18}
+.hostPill{border:1px solid #ffffff16;color:var(--text);cursor:pointer;font:inherit}
+.hostPill:hover{background:#ffffff18}
 .hostPanel{position:fixed;inset:0;background:#050815cc;backdrop-filter:blur(10px);z-index:80;display:flex;align-items:center;justify-content:center;padding:20px}
-.hostPanelCard{width:min(720px,100%);background:#11182d;border:1px solid #ffffff20;border-radius:24px;padding:24px;box-shadow:0 25px 90px #0008}
+.hostPanelCard{width:min(760px,100%);background:#11182d;border:1px solid #ffffff20;border-radius:24px;padding:24px;box-shadow:0 25px 90px #0008}
 .hostPanelHead{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}
 .hostPanelHead h2{margin:0;font-size:28px}
 .hostPanelGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .hostPanelGrid .btn{width:100%}
-.hostPanelInfo{margin:16px 0;padding:14px;border-radius:14px;background:#ffffff08;border:1px solid #ffffff12;color:var(--muted)}
 @media(max-width:600px){.hostPanelGrid{grid-template-columns:1fr}}
 .wrap{width:min(1200px,100%);margin:auto}.hero{text-align:center}
 .eyebrow{display:inline-block;padding:8px 14px;border-radius:999px;background:#ffffff12;border:1px solid #ffffff1c;color:#e4ddff;font-size:12px;font-weight:900;letter-spacing:.16em}
@@ -58,12 +57,16 @@ body{overflow-x:hidden}.screen{min-height:100vh;display:flex;align-items:center;
 
 <div id="join" class="screen hidden"><div class="wrap hero">
 <span class="eyebrow">AUDIENCE MODE</span><h1 style="font-size:clamp(40px,8vw,80px)">📱 JOIN THE QUIZ</h1>
-<div class="joinbox"><input id="joinCode" maxlength="8" placeholder="ENTER ROOM CODE"><button class="btn big" style="margin-top:14px" onclick="joinRoom()">JOIN</button></div>
+<div class="joinbox">
+<input id="joinName" maxlength="20" placeholder="YOUR NAME">
+<input id="joinCode" maxlength="8" placeholder="ENTER ROOM CODE" style="margin-top:10px">
+<button class="btn big" style="margin-top:14px" onclick="joinRoom()">JOIN</button>
+</div>
 <button class="btn dark" onclick="goHome()">← Back</button><p id="joinStatus" class="notice"></p>
 </div></div>
 
 <div id="host" class="screen hidden"><div class="host wrap">
-<div class="top"><button class="pill hostPill" onclick="toggleHostPanel()" title="Open host controls">🎤 HOST</button><div class="pill" id="roomPill">Room: —</div><div class="pill" id="hostScore">0 pts</div></div>
+<div class="top"><button class="pill hostPill" onclick="toggleHostPanel()">🎤 HOST</button><div class="pill" id="roomPill">Room: —</div><div class="pill" id="hostScore">0 pts</div></div>
 <div class="game">
 <div class="round" id="roundNo">ROUND 1 / 20</div><div class="difficulty" id="difficulty">READY</div>
 <div class="titlePrompt">🎧 LISTEN CAREFULLY...</div>
@@ -81,6 +84,10 @@ body{overflow-x:hidden}.screen{min-height:100vh;display:flex;align-items:center;
 <div id="answer" class="answer hidden"></div>
 </div>
 <div class="teams" id="teams"></div>
+<div id="guesses" class="admin">
+<h3>📱 Live Guesses</h3>
+<div id="guessList" class="small">Waiting for participants…</div>
+</div>
 <div class="buttons">
 <button class="btn dark" onclick="toggleAdmin()">📝 Edit Songs</button>
 <button class="btn red" onclick="finishQuiz()">🏁 Finish Quiz</button>
@@ -90,29 +97,32 @@ body{overflow-x:hidden}.screen{min-height:100vh;display:flex;align-items:center;
 
 
 <div id="hostPanel" class="hostPanel hidden" onclick="if(event.target===this)toggleHostPanel()">
-  <div class="hostPanelCard">
-    <div class="hostPanelHead">
-      <h2>🎤 Host Controls</h2>
-      <button class="btn dark" onclick="toggleHostPanel()">✕ CLOSE</button>
-    </div>
-    <div class="hostPanelInfo">
-      <strong id="panelRoundInfo">Round 1</strong><br>
-      Use these controls to run the quiz from one place.
-    </div>
-    <div class="hostPanelGrid">
-      <button class="btn play" onclick="toggleHostPanel();playClip()">🔊 PLAY 5-SEC CLUE</button>
-      <button class="btn dark" onclick="toggleHostPanel();replayClip()">↻ REPLAY CLUE</button>
-      <button class="btn green play" onclick="toggleHostPanel();revealAnswer()">🚨 REVEAL ANSWER</button>
-      <button class="btn dark play" onclick="toggleHostPanel();playActualSong()">🎶 PLAY FULL SONG</button>
-      <button class="btn dark" onclick="toggleHostPanel();nextRound()">NEXT ROUND →</button>
-      <button class="btn red" onclick="toggleHostPanel();finishQuiz()">🏁 FINISH QUIZ</button>
-    </div>
-  </div>
+<div class="hostPanelCard">
+<div class="hostPanelHead"><h2>🎤 Host Controls</h2><button class="btn dark" onclick="toggleHostPanel()">✕ CLOSE</button></div>
+<div class="hostPanelGrid">
+<button class="btn play" onclick="toggleHostPanel();playClip()">🔊 PLAY 5-SEC CLUE</button>
+<button class="btn dark" onclick="toggleHostPanel();replayClip()">↻ REPLAY CLUE</button>
+<button class="btn green play" onclick="toggleHostPanel();revealAnswer()">🚨 REVEAL ANSWER</button>
+<button class="btn dark play" onclick="toggleHostPanel();playActualSong()">🎶 PLAY FULL SONG</button>
+<button class="btn dark" onclick="toggleHostPanel();nextRound()">NEXT ROUND →</button>
+<button class="btn red" onclick="toggleHostPanel();finishQuiz()">🏁 FINISH QUIZ</button>
+</div>
+</div>
 </div>
 
 <div id="audience" class="screen hidden"><div class="audience wrap">
 <div class="top"><div class="pill">📱 AUDIENCE</div><div class="pill" id="audRound">Waiting…</div></div>
-<div class="game"><div class="round" id="audDiff">WAITING FOR HOST</div><div class="titlePrompt" id="audPrompt">Get ready!</div><div class="count" id="audCount">—</div><div id="audAnswer" class="answer hidden"></div></div>
+<div class="game">
+<div class="round" id="audDiff">WAITING FOR HOST</div>
+<div class="titlePrompt" id="audPrompt">Get ready!</div>
+<div class="count" id="audCount">—</div>
+<div id="guessBox" class="joinbox hidden">
+<input id="guessInput" maxlength="80" placeholder="TYPE YOUR GUESS">
+<button class="btn" style="margin-top:12px" onclick="sendGuess()">SUBMIT GUESS</button>
+<div id="guessStatus" class="status" style="margin-top:10px"></div>
+</div>
+<div id="audAnswer" class="answer hidden"></div>
+</div>
 </div></div>
 
 <div id="final" class="screen hidden"><div class="wrap final">
@@ -147,16 +157,12 @@ const songs = [
 {title:"Kannazhaga",movie:"3",artist:"Dhanush, Shruti Haasan",year:"2012",difficulty:"Impossible",audio:"audio/Kannazhaga.mp3",bgm:"bgm/Kannazhaga_quiz.mp3"}
 ];
 
-let order=[],current=0,teams=[{name:"Team 1",score:0},{name:"Team 2",score:0}],peer=null,connections=[],countTimer=null,stopTimer=null;
+let order=[],current=0,teams=[{name:"Team 1",score:0},{name:"Team 2",score:0}],peer=null,connections=[],countTimer=null,stopTimer=null,participantName="",myConnection=null,guesses=[];
 
 const $=id=>document.getElementById(id);
 function toggleHostPanel(){
-  const panel=$("hostPanel");
-  if(!panel)return;
-  panel.classList.toggle("hidden");
-  if(!panel.classList.contains("hidden")){
-    $("panelRoundInfo").textContent=`Round ${current+1} / ${order.length}`;
-  }
+  const p=$("hostPanel"); if(!p)return;
+  p.classList.toggle("hidden");
 }
 function goHome(){location.reload()}
 function shuffle(a){return [...a].sort(()=>Math.random()-0.5)}
@@ -166,7 +172,7 @@ function setupPeer(){
   if(typeof Peer==="undefined"){toast("Audience mode library did not load. Host mode still works.");return}
   peer=new Peer("tamilquiz-"+Math.random().toString(36).slice(2,7).toUpperCase());
   peer.on("open",id=>{let code=id.split("-")[1];$("roomPill").textContent="Room: "+code;renderShare(code)})
-  peer.on("connection",c=>{connections.push(c);c.on("open",()=>syncAudience(c))})
+  peer.on("connection",c=>{connections.push(c);c.on("open",()=>syncAudience(c));c.on("data",m=>{if(m.type==="guess")receiveGuess(m)})})
   peer.on("error",()=>toast("Audience connection error. The host quiz can still continue."))
 }
 function renderShare(code){
@@ -180,10 +186,11 @@ function syncAudience(c){
 }
 function broadcast(msg){connections.forEach(c=>{try{if(c.open)c.send(msg)}catch(e){}})}
 function showRound(){
+  guesses=[];
+  renderGuesses();
   stopAudio($("bgmAudio"));stopAudio($("fullAudio"));
   const s=order[current];
   $("roundNo").textContent=`ROUND ${current+1} / ${order.length}`;
-  if($("panelRoundInfo"))$("panelRoundInfo").textContent=`Round ${current+1} / ${order.length}`;
   $("difficulty").textContent=s.difficulty.toUpperCase();
   $("answer").classList.add("hidden");$("answer").innerHTML="";
   $("actualBtn").classList.add("hidden");
@@ -214,7 +221,7 @@ async function playClip(){
     $("audioStatus").textContent="🎵 BGM playing";
     let t=5;$("count").textContent=t;broadcast({type:"count",value:t});
     countTimer=setInterval(()=>{t--;if(t>=0){$("count").textContent=t;broadcast({type:"count",value:t})}if(t<=0)clearInterval(countTimer)},1000);
-    stopTimer=setTimeout(()=>{a.pause();$("audioStatus").textContent="BGM finished — make your guess!";},10000);
+    stopTimer=setTimeout(()=>{a.pause();$("audioStatus").textContent="BGM finished — make your guess!";broadcast({type:"state",round:current,visibleRound:current+1,total:order.length,diff:s.difficulty,state:"guess"});},5000);
   }catch(err){
     console.error(err);$("audioStatus").textContent="Audio could not load. Check the MP3 path.";
     toast("The BGM file could not be played. The file may be missing or invalid.");
@@ -247,20 +254,55 @@ function addPoint(i,n){teams[i].score=Math.max(0,teams[i].score+n);renderTeams()
 function renderFinal(){let sorted=[...teams].sort((a,b)=>b.score-a.score);$("leaderboard").innerHTML=sorted.map((t,i)=>`<div class="answer" style="max-width:600px"><strong>${i+1}. ${esc(t.name)}</strong><div class="pts">${t.score} points</div></div>`).join("");$("winner").textContent=sorted[0]?.name?`🎉 WINNER: ${sorted[0].name}!`:"🎉 Great game!"}
 function toggleAdmin(){let a=$("admin");a.classList.toggle("hidden");if(!a.classList.contains("hidden"))renderAdmin()}
 function renderAdmin(){$("admin").innerHTML=`<h3>Song list & audio settings</h3><p class="small">The bundled MP3 paths are used automatically. No folder upload is required.</p>`+order.map((s,i)=>`<div class="row"><b>${i+1}</b><div><strong>${esc(s.title)}</strong><div class="small">${esc(s.movie)} • ${s.year}</div></div><div><div class="small">${esc(s.artist)}</div></div><div class="small">${esc(s.bgm)}</div><div class="small">${esc(s.audio)}</div></div>`).join("")}
-function showJoin(){show("join");$("joinCode").focus()}
+function renderGuesses(){
+  const box=$("guessList"); if(!box)return;
+  if(!guesses.length){box.textContent="Waiting for participants…";return}
+  box.innerHTML=guesses.map((g,i)=>`<div style="display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid #ffffff0e"><span><strong>${esc(g.name)}</strong>: ${esc(g.text)}</span><button class="btn green" style="padding:7px 10px;font-size:12px" onclick="awardGuess(${i})">+1</button></div>`).join("");
+}
+function awardGuess(i){
+  const g=guesses[i]; if(!g)return;
+  let team=teams.find(t=>t.name===g.name);
+  if(!team){team={name:g.name,score:0};teams.push(team)}
+  team.score++; renderTeams(); renderGuesses();
+  broadcast({type:"scores",teams});
+  broadcast({type:"award",name:g.name});
+}
+function receiveGuess(m){
+  if(m.round!==current)return;
+  guesses.push({name:m.name,text:m.text});
+  renderGuesses();
+}
+function sendGuess(){
+  const text=$("guessInput").value.trim();
+  if(!text || !myConnection || !myConnection.open)return;
+  myConnection.send({type:"guess",round:audRoundIndex,text,name:participantName});
+  $("guessStatus").textContent="Guess submitted!";
+  $("guessInput").value="";
+}
+function showJoin(){show("join");$("joinName").focus()}
+let audRoundIndex=0;
 function joinRoom(){
+  participantName=$("joinName").value.trim()||"Player";
   let code=$("joinCode").value.trim().toUpperCase();if(!code)return;
   if(typeof Peer==="undefined"){$("joinStatus").textContent="Connection library did not load. Refresh and try again.";return}
   $("joinStatus").textContent="Connecting…";peer=new Peer();
-  peer.on("open",()=>{let c=peer.connect("tamilquiz-"+code);c.on("open",()=>{$("joinStatus").textContent="Connected! Watch the main screen for the quiz.";show("audience")});c.on("data",handleAudience);c.on("close",()=>{$("joinStatus").textContent="Connection closed."})});
+  peer.on("open",()=>{let c=peer.connect("tamilquiz-"+code);myConnection=c;c.on("open",()=>{$("joinStatus").textContent="Connected! Watch the main screen for the quiz.";show("audience")});c.on("data",handleAudience);c.on("close",()=>{$("joinStatus").textContent="Connection closed."})});
   peer.on("error",()=>{$("joinStatus").textContent="Could not connect. Check the room code and internet connection."})
 }
 function handleAudience(m){
-  if(m.type==="state"){show("audience");$("audRound").textContent=`ROUND ${m.visibleRound} / ${m.total}`;$("audDiff").textContent=m.diff.toUpperCase();$("audPrompt").textContent="🎧 LISTEN CAREFULLY...";$("audCount").textContent="—";$("audAnswer").classList.add("hidden")}
+  if(m.type==="state"){
+  show("audience"); audRoundIndex=m.round;
+  $("audRound").textContent=`ROUND ${m.visibleRound} / ${m.total}`;
+  $("audDiff").textContent=m.diff.toUpperCase();
+  $("audPrompt").textContent="🎧 LISTEN CAREFULLY...";
+  $("audCount").textContent="—"; $("audAnswer").classList.add("hidden");
+  $("guessBox").classList.toggle("hidden",m.state==="ready"||m.state==="guess");
+  if(m.state==="guess"){$("guessBox").classList.remove("hidden");$("guessStatus").textContent="Submit your guess!"}
+}
   if(m.type==="count")$("audCount").textContent=m.value;
   if(m.type==="reveal"){$("audAnswer").innerHTML=`<h2>🎉 ${esc(m.song.title)}</h2><p>${esc(m.song.movie)} • ${m.song.year}</p><p>${esc(m.song.artist)}</p>`;$("audAnswer").classList.remove("hidden");confetti()}
   if(m.type==="finish"){show("final");teams=m.teams||teams;renderFinal()}
-  if(m.type==="scores"){teams=m.teams||teams}
+  if(m.type==="scores"){teams=m.teams||teams} if(m.type==="award" && m.name===participantName){$("guessStatus").textContent="🎉 You got the point!"}
 }
 function confetti(){let c=$("confetti");c.innerHTML="";for(let i=0;i<80;i++){let p=document.createElement("i");p.className="piece";p.style.left=Math.random()*100+"%";p.style.animationDelay=Math.random()*.7+"s";p.style.background=["#ff4fa3","#8b5cf6","#20e3a2","#ffd166","#5ee7ff"][i%5];p.style.transform=`rotate(${Math.random()*360}deg)`;c.appendChild(p)}setTimeout(()=>c.innerHTML="",3000)}
 function toast(s){$("toast").textContent=s;$("toast").style.display="block";setTimeout(()=>$("toast").style.display="none",3200)}
