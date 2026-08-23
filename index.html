@@ -206,14 +206,22 @@ body::after{
   .game{border-radius:14px}
   .btn.big{min-width:0;width:100%}
 }
+
+.introOverlay{position:fixed;inset:0;background:radial-gradient(circle at 50% 20%,#5b2617,#0a0503 70%);z-index:120;display:flex;align-items:center;justify-content:center;padding:24px}
+.introCard{width:min(760px,100%);text-align:center;padding:42px 28px;border:3px solid var(--gold);border-radius:18px;background:linear-gradient(180deg,#291710ee,#100806f5);box-shadow:0 30px 100px #000d,0 0 40px #f7c94818}
+.filmStrip{color:var(--gold);letter-spacing:18px;font-size:20px;margin-bottom:20px}.introKicker{color:#fff0bf;font-size:12px;font-weight:1000;letter-spacing:.22em}.introCard h2{font-size:clamp(42px,8vw,86px);line-height:.94;color:var(--cream);margin:18px 0 14px;text-shadow:0 4px 0 #5c1b11}.introCard p{color:var(--muted);font-size:17px;margin-bottom:24px}
+#playerRoster h3{margin:0 0 12px;color:var(--gold2)}.rosterGrid{display:flex;flex-wrap:wrap;gap:8px}.playerChip{display:flex;align-items:center;gap:8px;padding:9px 12px;border:1px solid #a98755;border-radius:999px;background:#24150f}.playerChip .dot{width:8px;height:8px;border-radius:50%;background:#20e3a2;box-shadow:0 0 8px #20e3a2}.playerChip.submitted .dot{background:var(--gold);box-shadow:0 0 8px var(--gold)}.rosterEmpty{color:var(--muted)}
+.guessMeta{display:flex;align-items:center;gap:10px;color:#d8c8a8;font-size:12px}.guessActions{display:flex;gap:6px;align-items:center}.guessActions button{padding:7px 10px;font-size:12px}.scoreBadge{display:inline-block;padding:5px 8px;border-radius:7px;background:#3a2417;color:var(--gold2);font-weight:1000}.finalSub{font-size:14px;letter-spacing:.2em;color:var(--muted);margin-bottom:18px}.rankOne{border-color:var(--gold)!important;box-shadow:0 0 28px #f7c94822!important}.mobileState{margin-top:14px;padding:11px;border:1px solid #a98755;border-radius:10px;background:#21130e;color:#ffeac0}.mobileState.good{border-color:#65e6cc;color:#d9fff6}.mobileState.locked{border-color:#c47d5d;color:#ffd7c9}
+
 </style>
 
 </head>
 <body>
+<div id="introOverlay" class="introOverlay hidden"><div class="introCard"><div class="filmStrip">★ ★ ★ ★ ★</div><div class="introKicker">LIGHTS • CAMERA • MUSIC</div><h2>🎬 TAMIL CINEMA<br>GAME SHOW</h2><p id="introRoomText">Share the room code with your players, then start the show.</p><button class="btn big" onclick="beginGameFromIntro()">▶ START THE SHOW</button></div></div>
 <div id="home" class="screen"><div class="wrap hero">
-<span class="eyebrow">BIRTHDAY PARTY • TAMIL MUSIC QUIZ</span>
-<h1>🎂 HAPPY BIRTHDAY!</h1><h2>🎵 Guess the Song</h2>
-<p>26 crowd-recognizable Tamil songs • 2017–2025 • randomized every game</p>
+<span class="eyebrow">TAMIL CINEMA • MUSIC GAME SHOW</span>
+<h1>🎬 TAMIL CINEMA</h1><h2>🎵 GUESS THE SONG</h2>
+<p>26 Tamil hits • 5-second clues • live multiplayer • randomized every game</p>
 <div class="buttons"><button class="btn big" onclick="startHost()">🎤 HOST QUIZ</button><button class="btn big dark" onclick="showJoin()">📱 JOIN ON PHONE</button></div>
 <p class="notice">The host controls the music and answers. Audience phones follow the round, countdown, reveal and scores in real time.</p>
 </div></div>
@@ -236,7 +244,7 @@ body::after{
 <audio id="bgmAudio" class="audio" controls preload="auto"></audio>
 <audio id="fullAudio" class="audio hidden" preload="auto"></audio>
 <div id="count" class="count">5</div>
-<div id="audioStatus" class="status">Press PLAY SONG to begin.</div>
+<div id="audioStatus" class="status">Press PLAY SONG to begin.</div><div id="roundHint" class="status">5-second clue • type your guess on your phone</div>
 <div class="hostControls">
 <button class="btn play" onclick="playClip()">🔊 PLAY SONG</button>
 <button class="btn dark" onclick="replayClip()">↻ REPLAY</button>
@@ -255,7 +263,7 @@ body::after{
 <button class="btn dark" onclick="toggleAdmin()">📝 Edit Songs</button>
 <button class="btn red" onclick="finishQuiz()">🏁 Finish Quiz</button>
 </div>
-<div id="roomShare" class="admin hidden"></div><div id="admin" class="admin hidden"></div>
+<div id="roomShare" class="admin hidden"></div><div id="playerRoster" class="admin"><h3>👥 Players</h3><div id="rosterList" class="rosterEmpty">Waiting for players to join…</div></div><div id="admin" class="admin hidden"></div>
 </div></div>
 
 
@@ -285,13 +293,15 @@ body::after{
 <div id="guessStatus" class="status" style="margin-top:10px"></div>
 </div>
 <div id="audAnswer" class="answer hidden"></div>
+<div id="audScores" class="admin hidden" style="margin-top:14px"><h3>🏆 LIVE LEADERBOARD</h3><div id="audScoreList"></div></div>
 </div>
 </div></div>
 
 <div id="final" class="screen hidden"><div class="wrap final">
-<span class="eyebrow">QUIZ COMPLETE</span><h1 style="font-size:clamp(45px,9vw,100px)">🏆 FINAL SCORES</h1>
+<span class="eyebrow">THE END</span><h1 style="font-size:clamp(45px,9vw,100px)">🏆 FINAL SCORES</h1>
+<div class="finalSub">THE AUDIENCE HAS SPOKEN</div>
 <div id="leaderboard"></div><div class="winner" id="winner"></div>
-<button class="btn big" onclick="location.reload()">🎉 PLAY AGAIN</button>
+<button class="btn big" onclick="location.reload()">🎬 RUN IT AGAIN</button>
 </div></div>
 
 <div id="confetti" class="confetti"></div><div id="toast" class="toast"></div>
@@ -326,7 +336,7 @@ const songs = [
 {title:"Oorum Blood",movie:"Dude",artist:"Sai Abhyankkar, Deepthi Suresh, Paal Dabba, Bebhumika",year:"2025",difficulty:"Expert",audio:"audio/Oorum_Blood.mp3",bgm:"bgm/Oorum_Blood.mp3"}
 ];
 
-let order=[],current=0,teams=[{name:"Team 1",score:0},{name:"Team 2",score:0}],peer=null,connections=[],countTimer=null,stopTimer=null,participantName="",myConnection=null,guesses=[];
+let order=[],current=0,teams=[],peer=null,connections=[],countTimer=null,stopTimer=null,participantName="",myConnection=null,guesses=[],participants={},roundStartedAt=0,showStarted=false,answerRevealed=false,playerId="";
 
 const $=id=>document.getElementById(id);
 function toggleHostPanel(){
@@ -336,12 +346,15 @@ function toggleHostPanel(){
 function goHome(){location.reload()}
 function shuffle(a){return [...a].sort(()=>Math.random()-0.5)}
 function show(id){["home","join","host","audience","final"].forEach(x=>$(x).classList.toggle("hidden",x!==id))}
-function startHost(){order=shuffle(songs);current=0;teams=[{name:"Team 1",score:0},{name:"Team 2",score:0}];show("host");renderTeams();showRound();setupPeer()}
+function startHost(){order=shuffle(songs);current=0;teams=[];participants={};show("host");renderTeams();showRound();setupPeer();showStarted=false;setTimeout(showIntro,250)}
+function showIntro(){const p=$("introOverlay");if(!p)return;$('introRoomText').textContent='Share the room code with your players, then start the show.';p.classList.remove('hidden');playTone('intro')}
+function beginGameFromIntro(){const p=$("introOverlay");if(p)p.classList.add('hidden');showStarted=true;showRound();playTone('start')}
+function playTone(kind){try{const C=window.AudioContext||window.webkitAudioContext;if(!C)return;const c=new C(),o=c.createOscillator(),g=c.createGain(),now=c.currentTime;const seq=kind==='intro'?[220,330,440]:kind==='correct'?[523,659,784]:kind==='wrong'?[220,165]:kind==='reveal'?[392,523,659,784]:kind==='start'?[330,440,659]:kind==='win'?[523,659,784,1046]:[440];o.type=kind==='wrong'?'sawtooth':'triangle';g.gain.setValueAtTime(.0001,now);seq.forEach((f,i)=>{o.frequency.setValueAtTime(f,now+i*.09);g.gain.exponentialRampToValueAtTime(.08,now+i*.09+.02)});g.gain.exponentialRampToValueAtTime(.0001,now+seq.length*.09+.18);o.connect(g).connect(c.destination);o.start();o.stop(now+seq.length*.09+.22);setTimeout(()=>c.close(),500)}catch(e){}}
 function setupPeer(){
   if(typeof Peer==="undefined"){toast("Audience mode library did not load. Host mode still works.");return}
   peer=new Peer("tamilquiz-"+Math.random().toString(36).slice(2,7).toUpperCase());
   peer.on("open",id=>{let code=id.split("-")[1];$("roomPill").textContent="Room: "+code;renderShare(code)})
-  peer.on("connection",c=>{connections.push(c);c.on("open",()=>syncAudience(c));c.on("data",m=>{if(m.type==="guess")receiveGuess(m)})})
+  peer.on("connection",c=>{connections.push(c);c.on("open",()=>syncAudience(c));c.on("data",m=>{if(m.type==="hello")registerPlayer(c,m);if(m.type==="guess")receiveGuess(m)})})
   peer.on("error",()=>toast("Audience connection error. The host quiz can still continue."))
 }
 function renderShare(code){
@@ -350,13 +363,16 @@ function renderShare(code){
   try{new QRCode($("qr"),{text:location.href,width:150,height:150})}catch(e){}
 }
 function syncAudience(c){
-  c.send({type:"state",round:current,visibleRound:current+1,total:order.length,diff:order[current]?.difficulty||"",state:"ready"});
+  c.send({type:"state",round:current,visibleRound:current+1,total:order.length,diff:order[current]?.difficulty||"",state:showStarted?"ready":"lobby"});
   if(!$("answer").classList.contains("hidden"))c.send({type:"reveal",song:order[current]});
 }
+function registerPlayer(c,m){const id=m.id||Math.random().toString(36).slice(2);c.playerId=id;const name=m.name||"Player";participants[id]={name,submitted:false};if(!teams.some(t=>t.name===name))teams.push({name,score:0});renderTeams();renderRoster();broadcastRoster();broadcast({type:"scores",teams})}
+function broadcastRoster(){broadcast({type:"roster",players:Object.values(participants).map(x=>({name:x.name,submitted:x.submitted}))})}
+function renderRoster(){const box=$("rosterList");if(!box)return;const list=Object.values(participants);if(!list.length){box.className="rosterEmpty";box.textContent="Waiting for players to join…";return}box.className="rosterGrid";box.innerHTML=list.map(p=>`<div class="playerChip ${p.submitted?"submitted":""}"><span class="dot"></span>${esc(p.name)}</div>`).join("")}
+function findParticipantId(name){for(const [id,p] of Object.entries(participants)){if(p.name===name)return id}return null}
 function broadcast(msg){connections.forEach(c=>{try{if(c.open)c.send(msg)}catch(e){}})}
 function showRound(){
-  guesses=[];
-  renderGuesses();
+  guesses=[];answerRevealed=false;roundStartedAt=0;renderGuesses();renderRoster();broadcastRoster();
   stopAudio($("bgmAudio"));stopAudio($("fullAudio"));
   const s=order[current];
   $("roundNo").textContent=`ROUND ${current+1} / ${order.length}`;
@@ -387,8 +403,9 @@ async function playClip(){
     await loadAudioElement(a,s.bgm);
     a.currentTime=0;
     await a.play();
+    roundStartedAt=Date.now();
     $("audioStatus").textContent="🎵 BGM playing";
-    let t=5;$("count").textContent=t;broadcast({type:"count",value:t});
+    let t=5;$("count").textContent=t;broadcast({type:"count",value:t,phase:"clue"});
     countTimer=setInterval(()=>{t--;if(t>=0){$("count").textContent=t;broadcast({type:"count",value:t})}if(t<=0)clearInterval(countTimer)},1000);
     stopTimer=setTimeout(()=>{a.pause();$("audioStatus").textContent="BGM finished — make your guess!";broadcast({type:"state",round:current,visibleRound:current+1,total:order.length,diff:s.difficulty,state:"guess"});},5000);
   }catch(err){
@@ -398,10 +415,11 @@ async function playClip(){
 }
 function replayClip(){playClip()}
 function revealAnswer(){
+  answerRevealed=true;playTone("reveal");
   const s=order[current];
   $("answer").innerHTML=`<h2>🎉 ${esc(s.title)}</h2><p>${esc(s.movie)} • ${s.year}</p><p><strong>${esc(s.artist)}</strong></p>`;
   $("answer").classList.remove("hidden");$("actualBtn").classList.remove("hidden");
-  broadcast({type:"reveal",song:s});confetti();
+  broadcast({type:"reveal",song:s});broadcast({type:"state",round:current,visibleRound:current+1,total:order.length,diff:s.difficulty,state:"reveal"});confetti();
 }
 async function playActualSong(){
   const s=order[current],a=$("fullAudio");
@@ -420,26 +438,28 @@ function nextRound(){if(current>=order.length-1){finishQuiz();return}current++;s
 function finishQuiz(){broadcast({type:"finish",teams});show("final");renderFinal()}
 function renderTeams(){$("teams").innerHTML=teams.map((t,i)=>`<div class="team"><strong>${esc(t.name)}</strong><div class="pts">${t.score}</div><div class="scoreBtns"><button onclick="addPoint(${i},-1)">−1</button><button onclick="addPoint(${i},1)">+1</button></div></div>`).join("")}
 function addPoint(i,n){teams[i].score=Math.max(0,teams[i].score+n);renderTeams();broadcast({type:"scores",teams});$("hostScore").textContent=teams.reduce((a,b)=>a+b.score,0)+" pts"}
-function renderFinal(){let sorted=[...teams].sort((a,b)=>b.score-a.score);$("leaderboard").innerHTML=sorted.map((t,i)=>`<div class="answer" style="max-width:600px"><strong>${i+1}. ${esc(t.name)}</strong><div class="pts">${t.score} points</div></div>`).join("");$("winner").textContent=sorted[0]?.name?`🎉 WINNER: ${sorted[0].name}!`:"🎉 Great game!"}
+function renderFinal(){let sorted=[...teams].sort((a,b)=>b.score-a.score);$("leaderboard").innerHTML=sorted.map((t,i)=>`<div class="answer ${i===0?"rankOne":""}" style="max-width:680px"><strong>${i+1}. ${esc(t.name)}</strong><div class="pts">${t.score} points</div></div>`).join("");$("winner").textContent=sorted[0]?.name?`🏆 WINNER: ${sorted[0].name}!`:"🎬 Great game!";playTone('win');confetti()}
 function toggleAdmin(){let a=$("admin");a.classList.toggle("hidden");if(!a.classList.contains("hidden"))renderAdmin()}
 function renderAdmin(){$("admin").innerHTML=`<h3>Song list & audio settings</h3><p class="small">The bundled MP3 paths are used automatically. No folder upload is required.</p>`+order.map((s,i)=>`<div class="row"><b>${i+1}</b><div><strong>${esc(s.title)}</strong><div class="small">${esc(s.movie)} • ${s.year}</div></div><div><div class="small">${esc(s.artist)}</div></div><div class="small">${esc(s.bgm)}</div><div class="small">${esc(s.audio)}</div></div>`).join("")}
 function renderGuesses(){
   const box=$("guessList"); if(!box)return;
   if(!guesses.length){box.textContent="Waiting for participants…";return}
-  box.innerHTML=guesses.map((g,i)=>`<div style="display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid #ffffff0e"><span><strong>${esc(g.name)}</strong>: ${esc(g.text)}</span><button class="btn green" style="padding:7px 10px;font-size:12px" onclick="awardGuess(${i})">+1</button></div>`).join("");
+  box.innerHTML=guesses.map((g,i)=>`<div style="display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid #ffffff0e"><span><strong>${esc(g.name)}</strong>: ${esc(g.text)}<div class="guessMeta">${g.submittedAt.toFixed(1)}s after clue started ${g.claimed?"• <span class=scoreBadge>AWARDED</span>":""}</div></span>${g.claimed?"":`<div class="guessActions"><button class="btn green" onclick="awardGuess(${i},3)">+3</button><button class="btn dark" onclick="awardGuess(${i},2)">+2</button><button class="btn dark" onclick="awardGuess(${i},1)">+1</button><button class="btn red" onclick="awardGuess(${i},0)">✖</button></div>`}</div>`).join("");
 }
-function awardGuess(i){
-  const g=guesses[i]; if(!g)return;
-  let team=teams.find(t=>t.name===g.name);
-  if(!team){team={name:g.name,score:0};teams.push(team)}
-  team.score++; renderTeams(); renderGuesses();
-  broadcast({type:"scores",teams});
-  broadcast({type:"award",name:g.name});
+function awardGuess(i,pts){
+  const g=guesses[i]; if(!g || g.claimed)return;
+  g.claimed=true;const points=Number(pts)||1;
+  let team=teams.find(t=>t.name===g.name);if(!team){team={name:g.name,score:0};teams.push(team)}
+  team.score+=points; renderTeams();renderGuesses();
+  const pid=findParticipantId(g.name);if(pid&&participants[pid])participants[pid].submitted=true;
+  broadcast({type:"scores",teams});broadcast({type:"award",name:g.name,points});playTone(points>0?'correct':'wrong');
 }
 function receiveGuess(m){
-  if(m.round!==current)return;
-  guesses.push({name:m.name,text:m.text});
-  renderGuesses();
+  if(m.round!==current || answerRevealed)return;
+  const pid=findParticipantId(m.name);if(pid&&participants[pid])participants[pid].submitted=true;
+  const elapsed=roundStartedAt?Math.max(0,(Date.now()-roundStartedAt)/1000):5;
+  guesses.push({name:m.name,text:m.text,submittedAt:elapsed,claimed:false});
+  renderGuesses();renderRoster();broadcastRoster();
 }
 function sendGuess(){
   const text=$("guessInput").value.trim();
@@ -451,27 +471,31 @@ function sendGuess(){
 function showJoin(){show("join");$("joinName").focus()}
 let audRoundIndex=0;
 function joinRoom(){
-  participantName=$("joinName").value.trim()||"Player";
+  participantName=$("joinName").value.trim()||"Player";playerId=participantName+"-"+Math.random().toString(36).slice(2,7);
   let code=$("joinCode").value.trim().toUpperCase();if(!code)return;
   if(typeof Peer==="undefined"){$("joinStatus").textContent="Connection library did not load. Refresh and try again.";return}
   $("joinStatus").textContent="Connecting…";peer=new Peer();
-  peer.on("open",()=>{let c=peer.connect("tamilquiz-"+code);myConnection=c;c.on("open",()=>{$("joinStatus").textContent="Connected! Watch the main screen for the quiz.";show("audience")});c.on("data",handleAudience);c.on("close",()=>{$("joinStatus").textContent="Connection closed."})});
+  peer.on("open",()=>{let c=peer.connect("tamilquiz-"+code);myConnection=c;c.on("open",()=>{$("joinStatus").textContent="Connected! Waiting for the host…";show("audience");c.send({type:"hello",name:participantName,id:playerId})});c.on("data",handleAudience);c.on("close",()=>{$("joinStatus").textContent="Connection closed."})});
   peer.on("error",()=>{$("joinStatus").textContent="Could not connect. Check the room code and internet connection."})
 }
+function renderAudienceScores(){const box=$("audScoreList"),wrap=$("audScores");if(!box||!wrap)return;const sorted=[...teams].sort((a,b)=>b.score-a.score);wrap.classList.toggle("hidden",!sorted.length);box.innerHTML=sorted.map((t,i)=>`<div class="answer ${i===0?"rankOne":""}" style="margin:8px 0;padding:12px;text-align:left"><strong>${i+1}. ${esc(t.name)}</strong><span style="float:right">${t.score} pts</span></div>`).join("")}
 function handleAudience(m){
   if(m.type==="state"){
-  show("audience"); audRoundIndex=m.round;
-  $("audRound").textContent=`ROUND ${m.visibleRound} / ${m.total}`;
-  $("audDiff").textContent=m.diff.toUpperCase();
-  $("audPrompt").textContent="🎧 LISTEN CAREFULLY...";
-  $("audCount").textContent="—"; $("audAnswer").classList.add("hidden");
-  $("guessBox").classList.toggle("hidden",m.state==="ready"||m.state==="guess");
-  if(m.state==="guess"){$("guessBox").classList.remove("hidden");$("guessStatus").textContent="Submit your guess!"}
-}
-  if(m.type==="count")$("audCount").textContent=m.value;
-  if(m.type==="reveal"){$("audAnswer").innerHTML=`<h2>🎉 ${esc(m.song.title)}</h2><p>${esc(m.song.movie)} • ${m.song.year}</p><p>${esc(m.song.artist)}</p>`;$("audAnswer").classList.remove("hidden");confetti()}
+    show("audience");audRoundIndex=m.round;
+    $("audRound").textContent=`ROUND ${m.visibleRound} / ${m.total}`;
+    $("audDiff").textContent=m.diff.toUpperCase();
+    $("audPrompt").textContent=m.state==="lobby"?"WAITING FOR THE SHOW":"🎧 LISTEN CAREFULLY...";
+    $("audCount").textContent=m.state==="ready"?"5":"—";
+    $("audAnswer").classList.add("hidden");
+    $("guessBox").classList.toggle("hidden",m.state!=="guess");
+    if(m.state==="guess"){ $("guessStatus").textContent="Submit your guess!";$("guessStatus").className="status mobileState"; }
+  }
+  if(m.type==="count"){$("audCount").textContent=m.value;if(m.value>0&&m.value<=5)playTone("tick");}
+  if(m.type==="roster"){const names=m.players.map(p=>p.name).join(" • ");$("audPrompt").textContent=names?`PLAYERS: ${names}`:"WAITING FOR PLAYERS";}
+  if(m.type==="reveal"){$("guessBox").classList.add("hidden");$("audAnswer").innerHTML=`<h2>🎬 ${esc(m.song.title)}</h2><p>${esc(m.song.movie)} • ${m.song.year}</p><p>${esc(m.song.artist)}</p>`;$("audAnswer").classList.remove("hidden");playTone("reveal");confetti();}
   if(m.type==="finish"){show("final");teams=m.teams||teams;renderFinal()}
-  if(m.type==="scores"){teams=m.teams||teams} if(m.type==="award" && m.name===participantName){$("guessStatus").textContent="🎉 You got the point!"}
+  if(m.type==="scores"){teams=m.teams||teams;renderAudienceScores()}
+  if(m.type==="award" && m.name===participantName){if(m.points>0){$("guessStatus").textContent=`🎉 +${m.points} POINT${m.points===1?"":"S"}!`;$("guessStatus").className="status mobileState good";playTone("correct")}else{$("guessStatus").textContent="No points this time — next round!";$("guessStatus").className="status mobileState locked";playTone("wrong")}}
 }
 function confetti(){let c=$("confetti");c.innerHTML="";for(let i=0;i<80;i++){let p=document.createElement("i");p.className="piece";p.style.left=Math.random()*100+"%";p.style.animationDelay=Math.random()*.7+"s";p.style.background=["#ff4fa3","#8b5cf6","#20e3a2","#ffd166","#5ee7ff"][i%5];p.style.transform=`rotate(${Math.random()*360}deg)`;c.appendChild(p)}setTimeout(()=>c.innerHTML="",3000)}
 function toast(s){$("toast").textContent=s;$("toast").style.display="block";setTimeout(()=>$("toast").style.display="none",3200)}
