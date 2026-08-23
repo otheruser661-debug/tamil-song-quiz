@@ -50,7 +50,7 @@ body{overflow-x:hidden}.screen{min-height:100vh;display:flex;align-items:center;
 <div id="home" class="screen"><div class="wrap hero">
 <span class="eyebrow">BIRTHDAY PARTY • TAMIL MUSIC QUIZ</span>
 <h1>🎂 HAPPY BIRTHDAY!</h1><h2>🎵 Guess the Song</h2>
-<p>20 crowd-recognizable Tamil songs • 2010+ • randomized every game</p>
+<p>26 crowd-recognizable Tamil songs • 2017–2025 • randomized every game</p>
 <div class="buttons"><button class="btn big" onclick="startHost()">🎤 HOST QUIZ</button><button class="btn big dark" onclick="showJoin()">📱 JOIN ON PHONE</button></div>
 <p class="notice">The host controls the music and answers. Audience phones follow the round, countdown, reveal and scores in real time.</p>
 </div></div>
@@ -154,7 +154,13 @@ const songs = [
 {title:"Hukum",movie:"Jailer",artist:"Anirudh Ravichander, Super Subu",year:"2023",difficulty:"Expert",audio:"audio/Hukum.mp3",bgm:"bgm/Hukum.mp3"},
 {title:"Katchi Sera",movie:"Think Indie",artist:"Sai Abhyankkar",year:"2024",difficulty:"Expert",audio:"audio/Katchi_Sera.mp3",bgm:"bgm/Katchi_Sera.mp3"},
 {title:"Hey Minnale",movie:"Amaran",artist:"G. V. Prakash Kumar, Haricharan, Shweta Mohan",year:"2024",difficulty:"Expert",audio:"audio/Hey_Minnale.mp3",bgm:"bgm/Hey_Minnale.mp3"},
-{title:"Kannazhaga",movie:"3",artist:"Dhanush, Shruti Haasan",year:"2012",difficulty:"Impossible",audio:"audio/Kannazhaga.mp3",bgm:"bgm/Kannazhaga.mp3"}
+{title:"Kannazhaga",movie:"3",artist:"Dhanush, Shruti Haasan",year:"2012",difficulty:"Impossible",audio:"audio/Kannazhaga.mp3",bgm:"bgm/Kannazhaga.mp3"},
+{title:"Dippam Dappam",movie:"Kaathuvaakula Rendu Kaadhal",artist:"Anirudh Ravichander, Anthony Daasan",year:"2022",difficulty:"Easy",audio:"audio/Dippam_Dappam.mp3",bgm:"bgm/Dippam_Dappam.mp3"},
+{title:"Karuthavanlaam Galeejaam",movie:"Velaikkaran",artist:"Anirudh Ravichander",year:"2017",difficulty:"Medium",audio:"audio/Karuthavanlaam_Galeejaam.mp3",bgm:"bgm/Karuthavanlaam_Galeejaam.mp3"},
+{title:"Nee Singam Dhan",movie:"Pathu Thala",artist:"A. R. Rahman, Sid Sriram",year:"2023",difficulty:"Medium",audio:"audio/Nee_Singam_Dhan.mp3",bgm:"bgm/Nee_Singam_Dhan.mp3"},
+{title:"Manasilaayo",movie:"Vettaiyan",artist:"Anirudh Ravichander, Malaysia Vasudevan, Deepthi Suresh, Yugendran Vasudevan",year:"2024",difficulty:"Hard",audio:"audio/Manasilaayo.mp3",bgm:"bgm/Manasilaayo.mp3"},
+{title:"Sawadeeka",movie:"Vidaamuyarchi",artist:"Anirudh Ravichander, Anthony Daasan, Arivu",year:"2024",difficulty:"Hard",audio:"audio/Sawadeeka.mp3",bgm:"bgm/Sawadeeka.mp3"},
+{title:"Oorum Blood",movie:"Dude",artist:"Sai Abhyankkar, Deepthi Suresh, Paal Dabba, Bebhumika",year:"2025",difficulty:"Expert",audio:"audio/Oorum_Blood.mp3",bgm:"bgm/Oorum_Blood.mp3"}
 ];
 
 let order=[],current=0,teams=[{name:"Team 1",score:0},{name:"Team 2",score:0}],peer=null,connections=[],countTimer=null,stopTimer=null,participantName="",myConnection=null,guesses=[];
